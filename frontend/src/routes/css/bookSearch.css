@@ -1,6 +1,6 @@
 #searchPage{
     text-align: center;
-    background-color: #5c5d5b;
+    /* background-color: #5c5d5b; */
     color: #d5d2d0;
     display: flex;
     flex-direction: column;
@@ -9,9 +9,7 @@
 input{
     text-align: left;
 }
-h1{
-    margin: 0;
-}
+
 #bookCardContainer{
     display: flex;
     flex-wrap: wrap;
@@ -31,19 +29,6 @@ h1{
     border: 2pt solid black;
 }
 
-.genericBox{
-    background-color: #E3F0FF;
-    color: #b47548;
-    align-self: center;
-    margin:10px;
-    width:50%;
-    border-radius: 10pt;
-    font-family: 'Rowdies', serif;
-    padding: 10px;
-    
-    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
-    
-}
 /* #d5d2d0
 #2a2e39
 #b47548

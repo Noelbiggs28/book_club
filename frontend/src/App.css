@@ -3,10 +3,6 @@ body{
     margin: 0px;
 }
 
-
-
-
-
 .myButton {
     display: inline-block;
     padding: 10px 20px;
@@ -20,74 +16,58 @@ body{
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     margin:5px;
   }
-  
-  /* Hover State */
-  .myButton:hover {
-    background-color: #2980b9;
-    color: #fff;
-    border-color: #2980b9;
-  }
-  
-  /* Active/Focus State */
-  .myButton:active,
-  .myButton:focus {
-    outline: none;
+.myButton:hover {
+  background-color: #2980b9;
+  color: #fff;
+  border-color: #2980b9;
+}
+.myButton:active,
+.myButton:focus {
+  outline: none;
 
-  }
+}
 
-  /* Custom Dropdown (Select) Styles */
-/* Custom Dropdown (Select) Styles */
 .custom-select {
     position: relative;
     display: inline-block;
-    width: 200px; /* Adjust width as needed */
+    width: 200px; 
   }
-  
-  .custom-select select {
-    /* Remove default arrow */
-    padding: 10px; /* Adjust padding as needed */
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    width: 100%;
-    cursor: pointer;
-    outline: none;
-    margin-bottom: 10pt;
-  }
-  
+.custom-select select {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  margin-bottom: 10pt;
+}
+.custom-select select:hover,
+.custom-select select:focus {
+  border-color: #3498db;
+}
+.custom-select select:active,
+.custom-select select:checked {
+  background-color: #3498db;
+  color: #fff;
+}
 
-  
-  /* Hover & Focus States */
-  .custom-select select:hover,
-  .custom-select select:focus {
-    border-color: #3498db;
-  }
-  
-  /* Styling options when dropdown is open - adjust to your needs */
-  .custom-select select:active,
-  .custom-select select:checked {
-    background-color: #3498db;
-    color: #fff;
-  }
-  
-
-  .custom-radio {
-    display: flex;
-    align-items: center;
-    margin: 10px 0; 
-    justify-content: center;
-  }
-  
+.custom-radio {
+  display: flex;
+  align-items: center;
+  margin: 10px 0; 
+  justify-content: center;
+}
   .custom-radio label {
     display: flex;
     align-items: center;
-    margin-right: 15px; /* Adjust spacing between radio buttons and text */
+    margin-right: 15px; 
     margin-bottom: 0;
   }
   
 .custom-radio input[type='radio'] {
-    margin-right: 5px; /* Adjust spacing between radio button and label text */
+    margin-right: 5px;
     appearance: none;
     width: 20px;
     height: 20px;
@@ -98,8 +78,6 @@ body{
     align-items: center;
     margin-bottom: 2pt;
     }
-
-
 .custom-radio input[type='radio']:checked::before {
     content: '';
     position: absolute;
@@ -112,3 +90,19 @@ body{
     background-color: #3498db;
     align-items: center;
 } 
+
+.genericBox{
+  background-color: #E3F0FF;
+  /* color: #b47548; */
+  color:#000001;
+  align-self: center;
+  margin:10px;
+  /* width:50%; */
+  border-radius: 10pt;
+  font-family: 'Rowdies', serif;
+  padding: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+  border: 2px, solid, #000001;
+}

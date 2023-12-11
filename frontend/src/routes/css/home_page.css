@@ -1,8 +1,7 @@
-.page-container {
-
+/* .homePage {
     background-color: #5c5d5b;
     height: 100%
-}
+} */
 
 .page-item {
     border: solid;
@@ -42,12 +41,9 @@
 
 .start-here-item {
     border: solid;
-    border-color: #2a2e39;
-    width: 450px;
-    border-radius: 10pt;
+    width: 40%;
     border-width: 2px;
     background-color: #E3F0FF;
-    margin: 20px;
     text-align: center;
     padding: 10px
 }
