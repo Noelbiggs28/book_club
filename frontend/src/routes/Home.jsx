@@ -15,7 +15,7 @@ export default function Home({ userToken }) {
     const [totalPages, setTotalPages] = useState(null)
     const [userName, setUserName] = useState(null)
     const [leaderboard, setLeaderBoard] = useState([])
-    
+    const [pageLoaded, setPageLoaded] = useState(false)
 
   useEffect(() => {
     const fetchLeaderBoard = async () => {
@@ -24,7 +24,7 @@ export default function Home({ userToken }) {
         const appUser = await getPagesCompleted();
         setLeaderBoard(pagesRead)
         setUserName(appUser.username)
-
+        setPageLoaded(true)
         
       } catch (error) {
         console.error("Leaderboard error: ", error);
@@ -33,7 +33,7 @@ export default function Home({ userToken }) {
 
     fetchLeaderBoard();
   }, [])
-console.log(userName)
+
   return (
     <div className="homePage">
 
@@ -41,7 +41,8 @@ console.log(userName)
         <div className="start-here-container">
           <div className="start-here-item genericBox">
           <h3>Leaderboard</h3>
-                  {leaderboard !== null && leaderboard.length > 0 ? (
+          {pageLoaded? 
+                  leaderboard !== null && leaderboard.length > 0 ? (
                     <ol>
                       {leaderboard
                         .sort((a, b) => b.pages_completed - a.pages_completed)
@@ -52,18 +53,19 @@ console.log(userName)
                     </ol>
                   ) : (
                     'Log in to view Leaders'
-                  )}
+                  ):null}
           
           
           </div>
           <div className="start-here-item genericBox">
-            {userName ? (<div className="welcome-user">Welcome {userName}!</div>) : (
+            {pageLoaded ?
+            userName ? (<div className="welcome-user">Welcome {userName}!</div>) : (
             <>
             <b>Begin your literary journey by clicking down below</b>
             <div><Link to={'/signup'}><button className="myButton" id="signup-butt">Sign Up</button></Link></div>
               </>
-            )}
-
+            )
+            :null}
           </div>
         </div>
 
