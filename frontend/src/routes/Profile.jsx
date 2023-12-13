@@ -147,12 +147,12 @@ useEffect(() => {
 
                     </div>
                     <span className="contentText">
-                      <button className="makeItHover" onClick={()=>{handleCompletedBookClick(book["id"]) }}>
+                      <button className="makeItHover clearButton" onClick={()=>{handleCompletedBookClick(book["id"]) }}>
                       {/* Rating: {" "}   */}
                       {book["user_rating"] ? <ReadOnlyRating value={book["user_rating"]}/> : "not yet rated"}
                       </button>
                       {" "}
-                      <button onClick={() => handleDelete(book["id"], book)}> <img src={trashCan} /> 
+                      <button className="makeItHover clearButton" onClick={() => handleDelete(book["id"], book)}> <img src={trashCan} /> 
                       </button>
                       {" "}
                     {book.recommended ? (
@@ -182,13 +182,13 @@ useEffect(() => {
               ) : (
               profileInfo['tbr'].map((book,index)=> (
               <div className='book-info-container' key={index}>  
-                <p onClick={() => handleOpen(book.book)} className="makeItHover">Title: {book['book']['title']}</p>
+                <p onClick={() => handleOpen(book.book)} className="makeItHover">{book['book']['title']}</p>
                 <span className="contentText">
-                  <button onClick={() => handleTBRDelete(book["id"])}>
+                  <button className="makeItHover clearButton" onClick={() => handleTBRDelete(book["id"])}>
                     <img src={trashCan} />
                   </button>
                   {" "}
-                  <button className="myButton" onClick={() => 
+                  <button className="myButton completedButton" onClick={() => 
                     handleListChange({"book": {
                           "author": book['book']["author"],
                           "book_cover_id": book['book']["book_cover_id"],
