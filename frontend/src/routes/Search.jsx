@@ -92,7 +92,7 @@ export default function Search() {
         <h1>Find Your Next Literary Adventure</h1>
       </div>
       
-      <form id="searchForm" onSubmit={handleSubmit}>
+      <form className="genericBox" onSubmit={handleSubmit}>
         <div className="custom-select" id="title">
           <label htmlFor="title">Search by:</label>
           <select value={searchType} onChange={handleSearchTypeChange}>

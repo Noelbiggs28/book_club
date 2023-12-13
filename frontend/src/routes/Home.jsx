@@ -1,11 +1,5 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import {Link} from 'react-router-dom';
 import { getLeaderboard, getPagesCompleted} from '../api/backend_calls';
 import './css/home_page.css'
@@ -21,7 +15,7 @@ export default function Home({ userToken }) {
     const [totalPages, setTotalPages] = useState(null)
     const [userName, setUserName] = useState(null)
     const [leaderboard, setLeaderBoard] = useState([])
-    
+    const [pageLoaded, setPageLoaded] = useState(false)
 
   useEffect(() => {
     const fetchLeaderBoard = async () => {
@@ -30,13 +24,7 @@ export default function Home({ userToken }) {
         const appUser = await getPagesCompleted();
         setLeaderBoard(pagesRead)
         setUserName(appUser.username)
-        // pagesRead.forEach((item) => {
-        //   const { username, pages_completed} = item
-        //   setTotalPages(item.pages_completed);
-        //   setUserName(item.username)
-        // })
-        // const userNames = pagesRead.map(item => item.username);
-        // const totalPageCount = pagesRead.map(item => item.pages_completed);
+        setPageLoaded(true)
         
       } catch (error) {
         console.error("Leaderboard error: ", error);
@@ -45,15 +33,16 @@ export default function Home({ userToken }) {
 
     fetchLeaderBoard();
   }, [])
-console.log(userName)
+
   return (
-    <div className="page-container">
+    <div className="homePage">
 
 
         <div className="start-here-container">
-          <div className="start-here-item">
+          <div className="start-here-item genericBox">
           <h3>Leaderboard</h3>
-                  {leaderboard !== null && leaderboard.length > 0 ? (
+          {pageLoaded? 
+                  leaderboard !== null && leaderboard.length > 0 ? (
                     <ol>
                       {leaderboard
                         .sort((a, b) => b.pages_completed - a.pages_completed)
@@ -64,18 +53,19 @@ console.log(userName)
                     </ol>
                   ) : (
                     'Log in to view Leaders'
-                  )}
+                  ):null}
           
           
           </div>
-          <div className="start-here-item">
-            {userName ? (<div className="welcome-user">Welcome {userName}!</div>) : (
+          <div className="start-here-item genericBox">
+            {pageLoaded ?
+            userName ? (<div className="welcome-user">Welcome {userName}!</div>) : (
             <>
             <b>Begin your literary journey by clicking down below</b>
             <div><Link to={'/signup'}><button className="myButton" id="signup-butt">Sign Up</button></Link></div>
               </>
-            )}
-
+            )
+            :null}
           </div>
         </div>
 
@@ -107,8 +97,6 @@ console.log(userName)
                 <span className="feature-text">Engage with fellow readers through the book club feature</span>
             </div>
         </div>
-
-               
                 <div className="icon-ref"> Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik"> Freepik </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div>
 
   </div>
