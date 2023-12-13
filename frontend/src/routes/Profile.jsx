@@ -135,19 +135,16 @@ useEffect(() => {
           {typeof profileInfo == "object" ?(
           <div className="bottomContainer">
             <div className="completed">
-                <h3 className="titleText">Completed</h3>
+              <h3 className="titleText">Completed</h3>
               <div className="contentText">
-              {profileInfo["completed_books"].length === 0 ? (
+                {profileInfo["completed_books"].length === 0 ? (
                 <h4>You have no completed books</h4>
-              ) : (
-              profileInfo["completed_books"].map((book, index) => (
+                ) : (
+                profileInfo["completed_books"].map((book, index) => (
                   <div className="book-info-container" key={index}>
-                    <div className='comp-book-title' >
-                    {/* setOpen={setOpen} onClose={() => setOpen(false)} */}
-                      {/* book list pk: {book["id"]}  */}
-                      <p onClick={() => handleOpen(book.book)}>Title: {book["book"]["title"]} </p>
-                      <br></br>
-                      {/* Rating:{" "} */}
+                    <div className='comp-book-title makeItHover' >
+                      <p onClick={() => handleOpen(book.book)}>{book["book"]["title"]} </p>
+
                     </div>
                     <span className="contentText">
                       <button className="makeItHover" onClick={()=>{handleCompletedBookClick(book["id"]) }}>
