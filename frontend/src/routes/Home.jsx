@@ -45,7 +45,7 @@ export default function Home({ userToken }) {
           <h3>Leaderboard</h3>
           {pageLoaded? 
                   leaderboard !== null && leaderboard.length > 0 ? (
-                    <ol>
+                    <ol className='wordBreak'>
                       {leaderboard
                         .sort((a, b) => b.pages_completed - a.pages_completed)
                         .slice(0, 5) 

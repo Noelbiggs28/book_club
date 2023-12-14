@@ -114,3 +114,6 @@ body{
   cursor: pointer;
   font-weight: bolder;
 }
+.wordBreak {
+  word-break: break-all;
+}
