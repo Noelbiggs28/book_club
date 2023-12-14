@@ -69,6 +69,11 @@ const checkPermissions = () => {
     <>
         <div className="genericBox">
             <h4>BOOKCLUB NAME: {clubInfo.result.name}</h4> 
+
+            <img className='bookImage'
+                    src={clubInfo.result.book.book_cover_id ? `https://covers.openlibrary.org/b/id/${clubInfo.result.book.book_cover_id}-M.jpg` : '/default_book.png'}
+                    alt="Book Cover"
+                />
             <h4>BOOK: {clubInfo.result.book.title}</h4>
             <h4>AUTHOR: {clubInfo.result.book.author}</h4>
         {isOwner ?<button onClick={()=>{setIsChangingBook(!isChangingBook)}} className="myButton">{isChangingBook?"Cancel" :"Change Book"}</button>:null}

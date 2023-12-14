@@ -24,7 +24,8 @@ class BookClubSerializer(serializers.ModelSerializer):
 class BookClubPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookClub
-        exclude = ('members',)
+        fields = '__all__'
+
 
 class MessageBoardPostSerializer(serializers.ModelSerializer):
     

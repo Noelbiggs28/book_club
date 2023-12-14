@@ -31,7 +31,7 @@ class BookClubView(APIView):
         user_id = request.user.id
         book_club_data = request.data
         book_club_data['user'] = user_id
-
+        book_club_data['members'] = [user_id]
         serializer = BookClubPostSerializer(data=book_club_data)
         if serializer.is_valid():
             book_club_saved = serializer.save()
