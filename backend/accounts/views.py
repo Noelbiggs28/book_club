@@ -7,7 +7,8 @@ from django.contrib.auth.models import User
 from .serializers import SignupSerializer
 from rest_framework.permissions import AllowAny
 from .models import UserProfile
-import json
+from rest_framework import status
+
 
 # handles request and parses body for username and password
 class SignupView(CreateAPIView):
@@ -19,11 +20,14 @@ class SignupView(CreateAPIView):
         if serializer.is_valid():
             username = serializer.validated_data["username"]
             password = serializer.validated_data["password"]
-            #create_user is special method. must be used to create user
+            if User.objects.filter(username=username).exists():
+                return Response({"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST)
+
             user = User.objects.create_user(username=username, password=password)
+            # make a userProfile link to the username
             user_profile = UserProfile(user=user)
             user_profile.save()
-
+            return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
 class PageAmount(APIView):
 
     def get(self, request, pk=None):

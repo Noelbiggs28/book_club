@@ -9,7 +9,7 @@ export default function SignUp() {
     username: '',
     password: '',
   });
-
+  const [validUserName, setValidUserName] = useState(true)
   const navigate = useNavigate();
 
   const [responseMsg, setResponseMsg] = useState('');
@@ -30,11 +30,15 @@ export default function SignUp() {
     };
 
     const response = await signup(context);
-    setResponseMsg(response.username);
- 
-
-    navigate('/login')
-  
+    setResponseMsg(response);
+    console.log(response)
+    if(response['username'][0]== "A user with that username already exists."){
+      setValidUserName(false)
+    }
+    else{
+      navigate('/login')
+    }
+    
   };
 
   return (
@@ -61,7 +65,7 @@ export default function SignUp() {
           onChange={handleInputChange}
           required
         />
-
+        {validUserName ? null:"that username is already taken"}
         <input
           onClick={handleRegister}
           type="submit"
