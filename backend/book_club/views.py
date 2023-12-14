@@ -41,13 +41,17 @@ class BookClubView(APIView):
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
         
     def patch(self, request, pk):
-
+        print(request.data)
         userInstance = request.user
         club = BookClub.objects.get(pk=pk)
         if request.data['modifier'] == "join":
             club.members.add(userInstance)
         elif request.data['modifier'] == "leave":
             club.members.remove(userInstance)
+        elif request.data['modifier'] == "changeBook":
+            bookpk = request.data['bookPk']
+            book = Book.objects.get(pk=bookpk)
+            club.book = book
         club.save()
    
         return Response({"result":"Operation successful"})
