@@ -8,13 +8,7 @@ class BookClub(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_book_clubs')
     name = models.CharField(max_length=50)
-    # @staticmethod
-    # def create_book_club(request, ol_id):
-    #     user = request.user
-    #     book = Book.objects.get(pk=ol_id)
-    #     book_club = BookClub.objects.create(user=user, book=book)
-    #     book_club.members.add(user)
-    #     return book
+
 
 
     
