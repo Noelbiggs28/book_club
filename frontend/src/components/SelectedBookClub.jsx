@@ -1,23 +1,29 @@
 import { getAllBookClubs } from "../api/backend_calls"
 import {useState, useEffect} from "react"
-import { modifyClub, deleteMyClub} from "../api/backend_calls"
+import { modifyClub, deleteMyClub, changeClubBook} from "../api/backend_calls"
 import ClubMessageBoard from "./ClubMessageBoard"
 import { Link } from 'react-router-dom';
 import './css/clubComponent.css'
 import '../routes/css/bookClub.css'
-
+import ChangeClubBook from "./ChangeClubBook";
 export default function SelectedBookClub({myID, bookClubSelected, setBookClubSelected}){
     const [clubInfo, setClubInfo] = useState(false)
     const [memberChange, setMemberChange] = useState(false)
     const [isMember, setIsMember] = useState(false)
     const [isOwner, setIsOwner] = useState(false)
+    const [isChangingBook, setIsChangingBook] = useState(false)
     const sendModifyClubRequest = async (modification) =>{
         const apiJSON = await modifyClub(bookClubSelected.id, modification)
         setMemberChange(!memberChange)
 
         return apiJSON
     }
+    const changeBook = async(modification) =>{
+        const apiJSON = await changeClubBook(bookClubSelected.id, modification)
+        setMemberChange(!memberChange)
 
+        return apiJSON
+    }
     const deleteClub = async () =>{
         const result = await deleteMyClub(bookClubSelected.id)
         setBookClubSelected(false)
@@ -42,6 +48,7 @@ const checkPermissions = () => {
     if (isMember) {
       setIsMember(true);
     }
+
   }
 };
     useEffect(() => {
@@ -52,7 +59,7 @@ const checkPermissions = () => {
         };
 
         fetchBookClubs();
-    }, [memberChange, isMember, isOwner]);
+    }, [memberChange, isMember, isOwner, isChangingBook]);
     useEffect(() => {
         if(clubInfo){
             checkPermissions()}
@@ -64,6 +71,10 @@ const checkPermissions = () => {
             <h4>BOOKCLUB NAME: {clubInfo.result.name}</h4> 
             <h4>BOOK: {clubInfo.result.book.title}</h4>
             <h4>AUTHOR: {clubInfo.result.book.author}</h4>
+        {isOwner ?<button onClick={()=>{setIsChangingBook(!isChangingBook)}} className="myButton">{isChangingBook?"Cancel" :"Change Book"}</button>:null}
+        <br />
+        {isChangingBook ? <ChangeClubBook setIsChangingBook={setIsChangingBook} clubPk={clubInfo.result.id}/>:null}
+
         </div>
         <div className="genericBox">
             <h4>MEMBERS</h4>
@@ -91,6 +102,6 @@ const checkPermissions = () => {
     </>}
     
     <ClubMessageBoard isMember={isMember} myID={myID} isOwner={isOwner} clubPk={bookClubSelected.id} />
-    
+
     </>)
 }

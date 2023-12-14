@@ -205,7 +205,24 @@ async function basicFetch(url, payload) {
   }
 
   export const modifyClub = async (clubPk, modifier) =>{
-    const context= {modifier}
+    const context= {"modifier":modifier}
+    const payload = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${localStorage.getItem("token")}`
+      },
+      body: JSON.stringify(context),
+    }
+    let url = `${base_url}book-club/${clubPk}`;
+    const apiData = await fetch(url,payload);
+    const apiJSON = await apiData.json();
+    return apiJSON
+  }
+  export const changeClubBook = async (clubPk, modifier, bookPk) =>{
+
+
+    const context= {"modifier":modifier,"bookPk":bookPk}
     const payload = {
       method: "PATCH",
       headers: {
