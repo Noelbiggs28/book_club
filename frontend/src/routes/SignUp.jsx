@@ -32,7 +32,7 @@ export default function SignUp() {
     const response = await signup(context);
     setResponseMsg(response.username);
  
-    alert("successfully registered")
+
     navigate('/login')
   
   };
