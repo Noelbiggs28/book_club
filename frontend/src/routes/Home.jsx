@@ -30,8 +30,10 @@ export default function Home({ userToken }) {
         console.error("Leaderboard error: ", error);
       }
     };
+      if(userToken){
+        fetchLeaderBoard();
+      }
 
-    fetchLeaderBoard();
   }, [])
 
   return (
@@ -51,21 +53,21 @@ export default function Home({ userToken }) {
                           <li key={index}>{`${user.username}: ${user.pages_completed}`}</li>
                         ))}
                     </ol>
-                  ) : (
+                  ) : null:(
                     'Log in to view Leaders'
-                  ):null}
+                  )}
           
           
           </div>
           <div className="start-here-item genericBox">
-            {pageLoaded ?
-            userName ? (<div className="welcome-user">Welcome {userName}!</div>) : (
-            <>
-            <b>Begin your literary journey by clicking down below</b>
-            <div><Link to={'/signup'}><button className="myButton" id="signup-butt">Sign Up</button></Link></div>
-              </>
-            )
-            :null}
+            {userToken ?
+            pageLoaded ? (<div className="welcome-user">Welcome {userName}!</div>) : null
+            :(
+              <>
+              <b>Begin your literary journey by clicking down below</b>
+              <div><Link to={'/signup'}><button className="myButton" id="signup-butt">Sign Up</button></Link></div>
+                </>
+              )}
           </div>
         </div>
 
