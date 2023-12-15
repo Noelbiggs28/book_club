@@ -117,3 +117,8 @@ body{
 .wordBreak {
   word-break: break-all;
 }
+
+.unLink{
+  text-decoration: none;
+  color:#000001;
+}

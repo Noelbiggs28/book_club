@@ -17,6 +17,8 @@ export default function Home({ userToken }) {
     const [leaderboard, setLeaderBoard] = useState([])
     const [pageLoaded, setPageLoaded] = useState(false)
 
+
+
   useEffect(() => {
     const fetchLeaderBoard = async () => {
       try {
@@ -50,13 +52,17 @@ export default function Home({ userToken }) {
                         .sort((a, b) => b.pages_completed - a.pages_completed)
                         .slice(0, 5) 
                         .map((user, index) => (
-                          <li key={index}>{`${user.username}: ${user.pages_completed}`}</li>
+                          <li key={index}>
+                            <Link className="unLink makeItHover" to={`/othersProfile/${user.user_id}`}>{user.username}
+                            </Link>
+                            : {user.pages_completed}
+                          </li>
                         ))}
                     </ol>
                   ) : null:(
                     'Log in to view Leaders'
                   )}
-          
+          {/* <Link className="makeItHover" key={index} to={`/othersProfile/${user.user_id}`}></Link> */}
           
           </div>
           <div className="start-here-item genericBox">

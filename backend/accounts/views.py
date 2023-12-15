@@ -77,9 +77,10 @@ class Leaderboard(APIView):
         user_profiles = UserProfile.objects.all()
         users_data = []
         for user_profile in user_profiles:
+
             username = user_profile.user.username
             pages_completed = user_profile.pages_completed
-
-            users_data.append({'username': username, 'pages_completed': pages_completed})
+            user_id = user_profile.user.id
+            users_data.append({'username': username, 'pages_completed': pages_completed, 'user_id': user_id})
 
         return Response(users_data)

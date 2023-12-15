@@ -39,8 +39,7 @@ const checkPermissions = () => {
     setIsMember(true);
   } else {
     // Check if the user is a member of the club
-    console.log(clubInfo['result']['members'])
-    console.log(myID)
+
     const isMember = clubInfo['result']['members'].find(
       (member) => member['id'] === myID
     );
