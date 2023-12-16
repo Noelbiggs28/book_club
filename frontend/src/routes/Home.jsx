@@ -53,7 +53,7 @@ export default function Home({ userToken }) {
                         .slice(0, 5) 
                         .map((user, index) => (
                           <li key={index}>
-                            <Link className="unLink makeItHover" to={`/othersProfile/${user.user_id}`}>{user.username}
+                            <Link className="unLink" to={`/othersProfile/${user.user_id}`}>{user.username}
                             </Link>
                             : {user.pages_completed}
                           </li>
