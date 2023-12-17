@@ -6,20 +6,24 @@
     align-items: center;
   }
   
+  .messagePostUsername {
+
+
+    width:100px;
+    overflow-x:hidden;
+    text-align: left;
+  }
+  .message-text {
+    word-wrap: break-word;
+    overflow-wrap: break-word; 
+    width: 78%;
+    text-align: left;
+  }
   .message-content {
     display: flex;
     flex-direction: row;
     
   }
   
-  .messagePostUsername {
-    margin-right: 10pt; 
-    margin-left: 10pt;
-  }
   
-  .message-text {
-    word-wrap: break-word;
-    overflow-wrap: break-word; 
-    width: 78%;
-  }
   
