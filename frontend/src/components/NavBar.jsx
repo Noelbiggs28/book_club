@@ -7,7 +7,23 @@ import { useEffect, useState } from 'react';
 
 export default function Navbar({ userToken, setCreatingBookClub, setBookClubSelected}) {
   const [allUsers, setAllUsers] = useState(false)
+  const [inputValue, setInputValue]=useState("")
+  const [userSearching, setUserSearching] = useState(false)
   const navigate = useNavigate();
+
+  const handleInputChange = (e) =>{
+    setInputValue(e.target.value)
+  }
+
+  const filteredUsernames = Object.values(allUsers).filter(
+    (user) =>
+      user.username.toLowerCase().includes(inputValue.toLowerCase())
+  );
+
+  const handleNavigate = (otherProfilePk) =>{
+    navigate(`/othersProfile/${otherProfilePk}`)
+    window.location.reload(true);
+  }
 
   const handleLinkClick = (path) => {
     if (path === '/') {
@@ -36,7 +52,7 @@ export default function Navbar({ userToken, setCreatingBookClub, setBookClubSele
       if(userToken){
         fetchLeaderBoard();
       }
-  }, [])
+  }, [userSearching])
 
   return (
     <ul className="navbar">
@@ -44,9 +60,17 @@ export default function Navbar({ userToken, setCreatingBookClub, setBookClubSele
         <img src={logo} onClick={() => handleLinkClick('/')} className="logo" id="main-logo"/>
       </div>
       <div className='rightSide'>
-
         <div className='userSearch'>
-          searchbox
+          People Search: {' '}
+          <input className='userSearchBox' onClick={()=>{setUserSearching(!userSearching)}} onChange={(e)=>{handleInputChange(e)}} value={inputValue} type='search'></input>
+          {inputValue && (
+          <ul className='userSearchResults'>
+            {filteredUsernames.map((user, index) => (
+              <li onClick={()=>{handleNavigate(user.user_id)}} key={index}>{user.username}</li>
+            ))}
+        </ul>
+      )}
+<button onClick={()=>{console.log(allUsers)}}>print</button>
         </div>
 
         <div className="linksBox">

@@ -60,7 +60,7 @@ export default function DetailedBookView({ open, setOpen, bookInfo, onClose, but
       }
   };
   const handleNavigate = (otherProfilePk) =>{
-    // handleClose()
+
     navigate(`/othersProfile/${otherProfilePk}`)
     window.location.reload(true);
   }
