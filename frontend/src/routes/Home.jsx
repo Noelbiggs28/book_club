@@ -9,7 +9,7 @@ import leaders from '../assets/leaderboard.png';
 import networking from '../assets/networking.png';
 import rate from '../assets/rate.png';
 import tally from '../assets/tally-marks.png';
-
+import { getFriends } from '../api/backend_calls';
 
 export default function Home({ userToken }) {
     const [totalPages, setTotalPages] = useState(null)
@@ -35,7 +35,7 @@ export default function Home({ userToken }) {
       if(userToken){
         fetchLeaderBoard();
       }
-
+      getFriends()
   }, [])
 
   return (

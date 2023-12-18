@@ -26,6 +26,7 @@ export default function Navbar({ userToken, setCreatingBookClub, setBookClubSele
   }
 
   const handleLinkClick = (path) => {
+    setInputValue('')
     if (path === '/') {
       navigate('/')
     } else if (!userToken && path != '/login') {
@@ -60,7 +61,7 @@ export default function Navbar({ userToken, setCreatingBookClub, setBookClubSele
         <img src={logo} onClick={() => handleLinkClick('/')} className="logo" id="main-logo"/>
       </div>
       <div className='rightSide'>
-        <div className='userSearch'>
+        {userToken && <div className='userSearch'>
           People Search: {' '}
           <input className='userSearchBox' onClick={()=>{setUserSearching(!userSearching)}} onChange={(e)=>{handleInputChange(e)}} value={inputValue} type='search'></input>
           {inputValue && (
@@ -70,8 +71,7 @@ export default function Navbar({ userToken, setCreatingBookClub, setBookClubSele
             ))}
         </ul>
       )}
-<button onClick={()=>{console.log(allUsers)}}>print</button>
-        </div>
+        </div>}
 
         <div className="linksBox">
           <li className="nav-item" onClick={() => handleLinkClick('/')}>

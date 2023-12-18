@@ -1,5 +1,3 @@
-// const base_url = import.meta.env.VITE_BASE_URL
-// const base_url = "http://localhost:8000/api/"
 const base_url = import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/";
 
 async function basicFetch(url, payload) {
@@ -7,10 +5,7 @@ async function basicFetch(url, payload) {
     const body = await res.json()
     return body
   }
-  
-
   export async function signup(context) {
-  
     const payload = {
       method: "POST",
       headers: {
@@ -33,6 +28,26 @@ async function basicFetch(url, payload) {
     const body = await basicFetch(`${base_url}accounts/get-token`, payload)
     return body.token
   }
+
+async function getDeleteFetch(adjustable_url, method){
+  const common_url = import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/";
+  const payload = {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    },}
+  const url = common_url+adjustable_url
+  if(method==="GET"){
+    const res = await fetch(url, payload)
+    const body = await res.json()
+    return body
+  }
+  else if(method==="DELETE"){
+    const response = await fetch(url, payload);
+    return response
+  }
+}
 
   export async function saveToList(context, list) {
     const endpoint= `${base_url}book-list/${list}/`
@@ -89,37 +104,14 @@ async function basicFetch(url, payload) {
     if(pk!==null){
       profilepk=`/${pk}`
     }
-    const payload = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },}
-    try {
-      let url=`${base_url}book-list${profilepk}`
-      const apiData = await fetch(url,payload);
-      const apiJSON = await apiData.json();
-  
-      if (apiJSON) {
-        return apiJSON
-      }
-    } catch (error) {
-     
-      return console.error("Error fetching data:", error);
-    }
+    const adjustable_url =`book-list${profilepk}`
+    const apiJSON = await getDeleteFetch(adjustable_url, "GET")
+    return apiJSON
   };
   
   export const fetchDetailedBook = async (OLID) => {
-    const payload = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },}
-
-      let url = `${base_url}search/detail/?OLID=${OLID}`;
-      const apiData = await fetch(url,payload);
-      const apiJSON = await apiData.json();
+      let adjustable_url = `search/detail/?OLID=${OLID}`;
+      const apiJSON = await getDeleteFetch(adjustable_url, "GET")
       return apiJSON
       
   };
@@ -159,15 +151,8 @@ async function basicFetch(url, payload) {
   };
 
   export const fetchOtherUsersSameBook = async (OLID) => {
-    const payload = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },}
-      let url = `${base_url}book-list/others-completed/${OLID}`;
-      const apiData = await fetch(url,payload);
-      const apiJSON = await apiData.json();
+      let adjustable_url = `book-list/others-completed/${OLID}`;
+      const apiJSON = await getDeleteFetch(adjustable_url, "GET")
       return apiJSON
   };
 
@@ -192,15 +177,8 @@ async function basicFetch(url, payload) {
     if(pk !==null){
       bookClubPk = `${pk}`
     }
-    const payload = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },}
-    let url = `${base_url}book-club/${bookClubPk}`;
-    const apiData = await fetch(url,payload);
-    const apiJSON = await apiData.json();
+    let adjustable_url = `book-club/${bookClubPk}`;
+    const apiJSON = await getDeleteFetch(adjustable_url, "GET")
     return apiJSON
   }
 
@@ -220,8 +198,6 @@ async function basicFetch(url, payload) {
     return apiJSON
   }
   export const changeClubBook = async (clubPk, modifier, bookPk) =>{
-
-
     const context= {"modifier":modifier,"bookPk":bookPk}
     const payload = {
       method: "PATCH",
@@ -237,42 +213,21 @@ async function basicFetch(url, payload) {
     return apiJSON
   }
   export const getAllMyClubs = async () =>{
-    const payload = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },}
-    let url = `${base_url}book-club/myclubs`;
-    const apiData = await fetch(url,payload);
-    const apiJSON = await apiData.json();
+    let adjustable_url = `book-club/myclubs`;    
+    const apiJSON = await getDeleteFetch(adjustable_url,"GET")
     return apiJSON
   }
 
 
-  export const getPagesCompleted = async (userID) =>{
-    const payload = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },}
-    let url = `${base_url}accounts/page-amount/`;
-    const apiData = await fetch(url,payload);
-    const apiJSON = await apiData.json();
+  export const getPagesCompleted = async () =>{
+    let adjustable_url = `accounts/page-amount/`;
+    const apiJSON = await getDeleteFetch(adjustable_url,"GET")
     return apiJSON
   } 
   
   export const getUserPagesCompleted = async (userID) =>{
-    const payload = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },}
-    let url = `${base_url}accounts/page-amount/${userID}`;
-    const apiData = await fetch(url,payload);
-    const apiJSON = await apiData.json();
+    let adjustable_url = `accounts/page-amount/${userID}`;
+    const apiJSON = await getDeleteFetch(adjustable_url, "GET")
     return apiJSON
   }
 
@@ -306,61 +261,21 @@ async function basicFetch(url, payload) {
     return apiJSON
   }
 
-export const deleteFromList = async (completedBookId) => {
-    const payload = {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Token ${localStorage.getItem("token")}`
-        },
-    }
-
-    let url=`${base_url}book-list/completed/${completedBookId}/`
-    const response = await fetch(url, payload);
-    if (response.status === 204) {
-      profilePage()
-      } else {
-          console.error("Not deleted")
-    }
-}
 
 export const deleteCompletedBook = async (completedBookId) => {
-  const payload = {
-      method: "DELETE",
-      headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-  }
-
-  let url=`${base_url}book-list/completed/${completedBookId}/`
-  const response = await fetch(url, payload);
+  let adjustable_url=`book-list/completed/${completedBookId}/`
+  const response = await getDeleteFetch(adjustable_url, "DELETE")
   return response
 }
 
 export const tbrDelete = async (tbrBookId) => {
-  const payload = {
-      method: "DELETE",
-      headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-  }
-
-  let url=`${base_url}book-list/to-be-read/${tbrBookId}/`
-  const response = await fetch(url, payload);
+  let adjustable_url=`book-list/to-be-read/${tbrBookId}/`
+  const response = await getDeleteFetch(adjustable_url, "DELETE")
+  return response
 }
 export const getBookClubMessageBoard = async (clubPk) =>{
-  
-  const payload = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    },}
-  let url = `${base_url}book-club/message-board/${clubPk}`;
-  const apiData = await fetch(url,payload);
-  const apiJSON = await apiData.json();
+  let adjustable_url = `book-club/message-board/${clubPk}`;
+  const apiJSON = await getDeleteFetch(adjustable_url, "GET")
   return apiJSON
 }
 
@@ -381,71 +296,28 @@ export const addClubMessage = async (clubPk, message) =>{
 }
 
 export const deleteMessage = async (messagePk) =>{
-
-  const payload = {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    },
-  }
-  let url = `${base_url}book-club/message-board/${messagePk}`;
-  const apiData = await fetch(url,payload);
-  if (apiData.ok) {
-    return { success: true }; 
-  } else {
-    return { success: false, status: apiData.status }; 
-  }
-
+  let adjustable_url = `book-club/message-board/${messagePk}`;
+  const apiJSON = await getDeleteFetch(adjustable_url, "DELETE")
+  return apiJSON
 }
 
 export const deleteMyClub = async (clubPk) =>{
-
-  const payload = {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    },
-  }
-  let url = `${base_url}book-club/${clubPk}`;
-  const apiData = await fetch(url,payload);
-  if (apiData.ok) {
-    return { success: true }; 
-  } else {
-    return { success: false, status: apiData.status }; 
-  }
- 
+  let adjustable_url = `book-club/${clubPk}`;
+  const apiData = await getDeleteFetch(adjustable_url, "DELETE")
+  return apiData
 }
 
 export const getMemberClubs = async (memberPK) =>{
-  const payload = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    },}
-  let url = `${base_url}book-club/clubs/${memberPK}`;
-  const apiData = await fetch(url,payload);
-  const apiJSON = await apiData.json();
+  let adjustable_url = `book-club/clubs/${memberPK}`;
+  const apiJSON = await getDeleteFetch(adjustable_url, "GET")
   return apiJSON
 } 
-
 
 export const getLeaderboard = async () =>{
-  const payload = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    },}
-  let url = `${base_url}accounts/leaderboard/`;
-  const apiData = await fetch(url,payload);
-  const apiJSON = await apiData.json();
+  let adjustable_url = `accounts/leaderboard/`;
+  const apiJSON = await getDeleteFetch(adjustable_url, "GET")
   return apiJSON
 } 
-
-
 
 export const toggleRecommend = async (bookID) => {
   const payload = {
@@ -455,9 +327,29 @@ export const toggleRecommend = async (bookID) => {
           "Authorization": `Token ${localStorage.getItem("token")}`
       },
   }
-
   let url=`${base_url}book-list/completed/${bookID}/`
- 
   const response = await fetch(url, payload);
 }
 
+
+export const getFriends = async () =>{
+  const adjustable_url = 'accounts/friend/'
+  const apiJSON = await getDeleteFetch(adjustable_url, "GET")
+  return apiJSON
+} 
+
+export const modifyFriendsList = async (action, friendsId) =>{
+  const context= {"action":action,"friend_id":friendsId}
+  const payload = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    },
+    body: JSON.stringify(context),
+  }
+  let url = `${base_url}accounts/friend/`;
+  const apiData = await fetch(url,payload);
+  const apiJSON = await apiData.json();
+  return apiJSON
+}
