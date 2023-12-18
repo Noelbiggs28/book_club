@@ -432,7 +432,7 @@ export const getMemberClubs = async (memberPK) =>{
 } 
 
 
-export const getLeaderboard = async (userID) =>{
+export const getLeaderboard = async () =>{
   const payload = {
     method: "GET",
     headers: {

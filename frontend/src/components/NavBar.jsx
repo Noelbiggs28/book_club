@@ -1,8 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './css/nav_bar.css'
 import logo from '../assets/chapter-chat-high-resolution-logo-transparent.png';
+import { getLeaderboard } from '../api/backend_calls';
+import { useEffect, useState } from 'react';
+
 
 export default function Navbar({ userToken, setCreatingBookClub, setBookClubSelected}) {
+  const [allUsers, setAllUsers] = useState(false)
   const navigate = useNavigate();
 
   const handleLinkClick = (path) => {
@@ -20,33 +24,54 @@ export default function Navbar({ userToken, setCreatingBookClub, setBookClubSele
     }
   };
 
+  useEffect(() => {
+    const fetchLeaderBoard = async () => {
+      try {
+        const results = await getLeaderboard();
+        setAllUsers(results)
+      } catch (error) {
+        console.error("Leaderboard error: ", error);
+      }
+    };
+      if(userToken){
+        fetchLeaderBoard();
+      }
+  }, [])
+
   return (
     <ul className="navbar">
       <div id="logoBox">
         <img src={logo} onClick={() => handleLinkClick('/')} className="logo" id="main-logo"/>
       </div>
-      <div id="linksBox">
-        <li className="nav-item" onClick={() => handleLinkClick('/')}>
-          <Link to="/">Home</Link>
-        </li>
-        <li className="nav-item" onClick={() => handleLinkClick('/profile')}>
-          <Link to="/profile">Profile</Link>
-        </li>
-        <li className="nav-item" onClick={() => handleLinkClick('/search')}>
-          <Link to="/search">Search</Link>
-        </li>
-        <li className="nav-item" onClick={() => handleLinkClick('/BookClub')}>
-          <Link to="/BookClub">Clubs</Link>
-        </li>
-        {userToken ? 
-            <li className="nav-item" onClick={() => handleLinkClick('/logout')}>
-              <Link to="/logout">Logout</Link>
-            </li>
-          :   
-          <li className="nav-item" onClick={() => handleLinkClick('/login')}>
-              <Link to="/login">Login</Link>
-            </li>
-        }
+      <div className='rightSide'>
+
+        <div className='userSearch'>
+          searchbox
+        </div>
+
+        <div className="linksBox">
+          <li className="nav-item" onClick={() => handleLinkClick('/')}>
+            <Link to="/">Home</Link>
+          </li>
+          <li className="nav-item" onClick={() => handleLinkClick('/profile')}>
+            <Link to="/profile">Profile</Link>
+          </li>
+          <li className="nav-item" onClick={() => handleLinkClick('/search')}>
+            <Link to="/search">Search</Link>
+          </li>
+          <li className="nav-item" onClick={() => handleLinkClick('/BookClub')}>
+            <Link to="/BookClub">Clubs</Link>
+          </li>
+          {userToken ? 
+              <li className="nav-item" onClick={() => handleLinkClick('/logout')}>
+                <Link to="/logout">Logout</Link>
+              </li>
+            :   
+            <li className="nav-item" onClick={() => handleLinkClick('/login')}>
+                <Link to="/login">Login</Link>
+              </li>
+          }
+        </div>
       </div>
     </ul>
   );

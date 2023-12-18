@@ -84,3 +84,5 @@ class Leaderboard(APIView):
             users_data.append({'username': username, 'pages_completed': pages_completed, 'user_id': user_id})
 
         return Response(users_data)
+    
+
