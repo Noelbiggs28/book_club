@@ -54,7 +54,7 @@ export default function ClubMessageBoard({clubPk, myID, isOwner, isMember}){
   allMessages.map((message, index) => (
     <div key={index} className="message-container">
       
-        <span className="messagePostUsername">{message.user.username}:</span>{" "}
+        <span className="messagePostUsername">{message.user.username}</span>{" "}
         <span className="message-text">{message.message}</span>
       
       {/* Show delete button if owner or your message */}
