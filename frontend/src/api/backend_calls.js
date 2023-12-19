@@ -1,3 +1,4 @@
+// different fetchs
 async function getDeleteFetch(adjustable_url, method){
   const common_url = import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/";
   const payload = {
@@ -33,6 +34,7 @@ async function contextFetch(adjustable_url, method, context){
   const body = await res.json()
   return body
 }
+
 async function noTokenFetch(adjustable_url, payload) {
   const common_url = import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/";
   const payload = {
@@ -46,6 +48,7 @@ async function noTokenFetch(adjustable_url, payload) {
     return body
   }
 
+// signup and login
   export async function signup(context) {
       const adjustable_url = `accounts/signup/`
       const body = await noTokenFetch(adjustable_url,context)
@@ -58,7 +61,7 @@ async function noTokenFetch(adjustable_url, payload) {
     return body.token
   }
 
-
+// all the calls
   export async function saveToList(context, list) {
     const adjustable_url= `book-list/${list}/`
     const apiJSON = await contextFetch(adjustable_url, "POST", context)
@@ -79,7 +82,6 @@ async function noTokenFetch(adjustable_url, payload) {
         const subjectContext = formattedSubjects.join('+');
         adjustable_url = `search/subject/?subject=${subjectContext}&resultpage=${result_page}`
       }
-
       const apiJSON = await getDeleteFetch(adjustable_url, "GET");
       return apiJSON.docs
   };
@@ -99,7 +101,6 @@ async function noTokenFetch(adjustable_url, payload) {
       let adjustable_url = `search/detail/?OLID=${OLID}`;
       const apiJSON = await getDeleteFetch(adjustable_url, "GET")
       return apiJSON
-      
   };
 
   export const setRatings = async (pk, rating) => {
@@ -151,7 +152,6 @@ async function noTokenFetch(adjustable_url, payload) {
     return apiJSON
   }
 
-
   export const getPagesCompleted = async () =>{
     let adjustable_url = `accounts/page-amount/`;
     const apiJSON = await getDeleteFetch(adjustable_url,"GET")
@@ -175,7 +175,6 @@ async function noTokenFetch(adjustable_url, payload) {
     const apiJSON = await contextFetch(adjustable_url, "POST", context)
     return apiJSON
   }
-
 
 export const deleteCompletedBook = async (completedBookId) => {
   let adjustable_url=`book-list/completed/${completedBookId}/`
@@ -230,7 +229,6 @@ export const toggleRecommend = async (bookID) => {
   const response = await getDeleteFetch(adjustable_url, "PUT")
   return response
 }
-
 
 export const getFriends = async () =>{
   const adjustable_url = 'accounts/friend/'
