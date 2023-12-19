@@ -1,30 +1,26 @@
-const base_url = import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/";
-
 async function basicFetch(url, payload) {
     const res = await fetch(url, payload)
     const body = await res.json()
     return body
   }
+
   export async function signup(context) {
+    const base_url = import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/";
     const payload = {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(context)
-    }
+      headers: {"Content-Type": "application/json",},
+      body: JSON.stringify(context)}
     const body = await basicFetch(`${base_url}accounts/signup/`,payload)
     return body
   }
   
   export async function login(context) {
+    const base_url = import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/";
     const payload = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(context)
-    }
+        "Content-Type": "application/json",},
+      body: JSON.stringify(context)}
     const body = await basicFetch(`${base_url}accounts/get-token`, payload)
     return body.token
   }
@@ -43,61 +39,54 @@ async function getDeleteFetch(adjustable_url, method){
     const body = await res.json()
     return body
   }
-  else if(method==="DELETE"){
+  else if(method==="DELETE"||method==="PUT"){
     const response = await fetch(url, payload);
     return response
   }
 }
 
+async function contextFetch(adjustable_url, method, context){
+  const common_url = import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/";
+  const payload = {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Token ${localStorage.getItem("token")}`
+    },
+    body: JSON.stringify(context)
+  }
+  const url = common_url+adjustable_url
+  const res = await fetch(url, payload)
+  const body = await res.json()
+  return body
+
+}
+
   export async function saveToList(context, list) {
-    const endpoint= `${base_url}book-list/${list}/`
-    const payload = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-      body: JSON.stringify(context)
-    }
-    const apiData = await fetch(endpoint, payload)
-    const apiJSON = await apiData.json()
+    const adjustable_url= `book-list/${list}/`
+    const apiJSON = await contextFetch(adjustable_url, "POST", context)
     return apiJSON
   }
 
-
   export const fetchBooks = async (context, searchType, result_page) => {
     let useableContext = context.title.replace(/ /g, "+")
-    const payload = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },}
-    try {
-      let url;
+      let adjustable_url;
       if (searchType === "author") {
-        url = `${base_url}search/author/?author=${useableContext}`;
+        adjustable_url = `search/author/?author=${useableContext}`;
       } else if (searchType === "title") {
-        url = `${base_url}search/title/?title=${useableContext}}`;
+        adjustable_url = `search/title/?title=${useableContext}}`;
       }
       else {
         const subjects = context.title.split(' ');
         const formattedSubjects = subjects.map(subject => `subject:${subject}`);
         const subjectContext = formattedSubjects.join('+');
-        url = `${base_url}search/subject/?subject=${subjectContext}&resultpage=${result_page}`
+        adjustable_url = `search/subject/?subject=${subjectContext}&resultpage=${result_page}`
       }
-     
-      const apiData = await fetch(url,payload);
-      const apiJSON = await apiData.json();
-  
-      if (apiJSON.docs) {
-        return apiJSON.docs
-      }
-    } catch (error) {
-     
-      return console.error("Error fetching data:", error);
-    }
+
+      const apiJSON = await getDeleteFetch(adjustable_url, "GET");
+      return apiJSON.docs
   };
+
 
   export const profilePage = async (pk=null) => {
     let profilepk = '/'
@@ -116,38 +105,11 @@ async function getDeleteFetch(adjustable_url, method){
       
   };
 
-  export const setRecommended = async (pk) => {
-    const payload = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-      body:{}
-    }
-
-      let url = `${base_url}book-list/completed/${pk}/`;
-      const apiData = await fetch(url,payload);
-      const apiJSON = await apiData.json();
-      return apiJSON
-      
-  };
-
   export const setRatings = async (pk, rating) => {
-    const payload = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-      body: JSON.stringify({"rating": rating})
-    }
-
-      let url = `${base_url}book-list/completed/${pk}/`;
-      const apiData = await fetch(url,payload);
-      const apiJSON = await apiData.json();
-      return apiJSON
-      
+    const context = {"rating": rating}
+      let adjustable_url = `book-list/completed/${pk}/`;
+      const apiJSON = await contextFetch(adjustable_url, "PATCH", context)
+      return apiJSON 
   };
 
   export const fetchOtherUsersSameBook = async (OLID) => {
@@ -157,18 +119,9 @@ async function getDeleteFetch(adjustable_url, method){
   };
 
   export const createBookClub = async (bookPk, bookClubName) =>{
-    const context= {"book":bookPk, "name":bookClubName}
-    const payload = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-      body: JSON.stringify(context)
-      ,}
-    let url = `${base_url}book-club/`;
-    const apiData = await fetch(url,payload);
-    const apiJSON = await apiData.json();
+    const context= {"book" : bookPk, "name" : bookClubName}
+    let adjustable_url = `book-club/`;
+    const apiJSON = await contextFetch(adjustable_url, "POST", context)
     return apiJSON
   }
 
@@ -184,32 +137,15 @@ async function getDeleteFetch(adjustable_url, method){
 
   export const modifyClub = async (clubPk, modifier) =>{
     const context= {"modifier":modifier}
-    const payload = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-      body: JSON.stringify(context),
-    }
-    let url = `${base_url}book-club/${clubPk}`;
-    const apiData = await fetch(url,payload);
-    const apiJSON = await apiData.json();
+    let adjustable_url = `book-club/${clubPk}`;
+    const apiJSON = await contextFetch(adjustable_url, "PATCH", context)
     return apiJSON
   }
+
   export const changeClubBook = async (clubPk, modifier, bookPk) =>{
     const context= {"modifier":modifier,"bookPk":bookPk}
-    const payload = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-      body: JSON.stringify(context),
-    }
-    let url = `${base_url}book-club/${clubPk}`;
-    const apiData = await fetch(url,payload);
-    const apiJSON = await apiData.json();
+    let adjustable_url = `book-club/${clubPk}`;
+    const apiJSON = await contextFetch(adjustable_url, "PATCH", context)
     return apiJSON
   }
   export const getAllMyClubs = async () =>{
@@ -232,32 +168,14 @@ async function getDeleteFetch(adjustable_url, method){
   }
 
   export const updatePagesCompleted = async (context) =>{
-    const payload = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-      body: JSON.stringify(context)
-      ,}
-    let url = `${base_url}accounts/page-amount/`;
-    const apiData = await fetch(url,payload);
-    const apiJSON = await apiData.json();
+    let adjustable_url = `accounts/page-amount/`;
+    const apiJSON = await contextFetch(adjustable_url, "POST", context)
     return apiJSON
   }
 
   export const decreasePagesCompleted = async (context) =>{
-    const payload = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-      body: JSON.stringify(context)
-      ,}
-    let url = `${base_url}accounts/page-decrease/`;
-    const apiData = await fetch(url,payload);
-    const apiJSON = await apiData.json();
+    let adjustable_url = `accounts/page-decrease/`;
+    const apiJSON = await contextFetch(adjustable_url, "POST", context)
     return apiJSON
   }
 
@@ -281,17 +199,8 @@ export const getBookClubMessageBoard = async (clubPk) =>{
 
 export const addClubMessage = async (clubPk, message) =>{
   const context ={"message":message}
-  const payload = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    },
-    body: JSON.stringify(context),
-  }
-  let url = `${base_url}book-club/message-board/${clubPk}`;
-  const apiData = await fetch(url,payload);
-  const apiJSON = await apiData.json();
+  let adjustable_url = `book-club/message-board/${clubPk}`;
+  const apiJSON = await contextFetch(adjustable_url, "POST", context)
   return apiJSON
 }
 
@@ -320,15 +229,9 @@ export const getLeaderboard = async () =>{
 } 
 
 export const toggleRecommend = async (bookID) => {
-  const payload = {
-      method: "PUT",
-      headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-  }
-  let url=`${base_url}book-list/completed/${bookID}/`
-  const response = await fetch(url, payload);
+  let adjustable_url=`book-list/completed/${bookID}/`
+  const response = await getDeleteFetch(adjustable_url, "PUT")
+  return response
 }
 
 
@@ -340,16 +243,7 @@ export const getFriends = async () =>{
 
 export const modifyFriendsList = async (action, friendsId) =>{
   const context= {"action":action,"friend_id":friendsId}
-  const payload = {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Token ${localStorage.getItem("token")}`
-    },
-    body: JSON.stringify(context),
-  }
-  let url = `${base_url}accounts/friend/`;
-  const apiData = await fetch(url,payload);
-  const apiJSON = await apiData.json();
+  let adjustable_url = `accounts/friend/`;
+  const apiJSON = await contextFetch(adjustable_url, "PATCH", context)
   return apiJSON
 }
