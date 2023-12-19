@@ -85,4 +85,32 @@ class Leaderboard(APIView):
 
         return Response(users_data)
     
+class FriendsList(APIView):
+    def get(self, request):
+        current_user_profile = UserProfile.objects.get(user=request.user)
+        friends = current_user_profile.friends.all()
+        if friends.exists():
+            return Response({'friends': list(friends)})
+        else:
+            return Response({'message': 'You have no friends.'})
+    
+class FriendPatch(APIView):
+    def patch(self, request):
+        current_user_profile = UserProfile.objects.get(user=request.user)
+        action = request.data.get('action')  #'add' or 'remove'
+        friend_id = request.data.get('friend_id')  
 
+        try:
+            friend_profile = UserProfile.objects.get(id=friend_id)
+        except UserProfile.DoesNotExist:
+            return Response({'error': 'Friend profile not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        if action == 'add':
+            current_user_profile.friends.add(friend_profile)
+            return Response({'message': 'Friend added successfully'})
+
+        elif action == 'remove':
+            current_user_profile.friends.remove(friend_profile)
+            return Response({'message': 'Friend removed successfully'})
+
+        return Response({'error': 'Invalid action'}, status=status.HTTP_400_BAD_REQUEST)
