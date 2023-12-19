@@ -35,7 +35,6 @@ export default function Home({ userToken }) {
       if(userToken){
         fetchLeaderBoard();
       }
-      getFriends()
   }, [])
 
   return (

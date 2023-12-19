@@ -1,30 +1,3 @@
-async function basicFetch(url, payload) {
-    const res = await fetch(url, payload)
-    const body = await res.json()
-    return body
-  }
-
-  export async function signup(context) {
-    const base_url = import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/";
-    const payload = {
-      method: "POST",
-      headers: {"Content-Type": "application/json",},
-      body: JSON.stringify(context)}
-    const body = await basicFetch(`${base_url}accounts/signup/`,payload)
-    return body
-  }
-  
-  export async function login(context) {
-    const base_url = import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/";
-    const payload = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",},
-      body: JSON.stringify(context)}
-    const body = await basicFetch(`${base_url}accounts/get-token`, payload)
-    return body.token
-  }
-
 async function getDeleteFetch(adjustable_url, method){
   const common_url = import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/";
   const payload = {
@@ -59,8 +32,32 @@ async function contextFetch(adjustable_url, method, context){
   const res = await fetch(url, payload)
   const body = await res.json()
   return body
-
 }
+async function noTokenFetch(adjustable_url, payload) {
+  const common_url = import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/";
+  const payload = {
+    method: "POST",
+    headers: {"Content-Type": "application/json",},
+    body: JSON.stringify(context)
+  }
+    const url = common_url+adjustable_url
+    const res = await fetch(url, payload)
+    const body = await res.json()
+    return body
+  }
+
+  export async function signup(context) {
+      const adjustable_url = `accounts/signup/`
+      const body = await noTokenFetch(adjustable_url,context)
+    return body
+  }
+  
+  export async function login(context) {
+    const adjustable_url = `accounts/get-token`
+    const body = await noTokenFetch(adjustable_url, context)
+    return body.token
+  }
+
 
   export async function saveToList(context, list) {
     const adjustable_url= `book-list/${list}/`
