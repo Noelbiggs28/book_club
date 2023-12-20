@@ -8,7 +8,6 @@ import { fetchDetailedBook, fetchOtherUsersSameBook, updatePagesCompleted } from
 import BasicRating from './Rating';
 import ReadOnlyRating from './readOnlyRating';
 import './css/detailedBookView.css'
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 export default function DetailedBookView({ open, setOpen, bookInfo, onClose, buttons }) {
 
@@ -60,7 +59,6 @@ export default function DetailedBookView({ open, setOpen, bookInfo, onClose, but
       }
   };
   const handleNavigate = (otherProfilePk) =>{
-
     navigate(`/othersProfile/${otherProfilePk}`)
     window.location.reload(true);
   }
