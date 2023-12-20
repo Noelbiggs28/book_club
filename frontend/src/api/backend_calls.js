@@ -35,7 +35,7 @@ async function contextFetch(adjustable_url, method, context){
   return body
 }
 
-async function noTokenFetch(adjustable_url, payload) {
+async function noTokenFetch(adjustable_url, context) {
   const common_url = import.meta.env.VITE_BASE_URL || "http://localhost:8000/api/";
   const payload = {
     method: "POST",
