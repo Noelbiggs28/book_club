@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.core.serializers import serialize
 from django.contrib.auth.models import User
-from .serializers import SignupSerializer
+from .serializers import SignupSerializer, GetFriendsSerializer
 from rest_framework.permissions import AllowAny
 from .models import UserProfile
 from rest_framework import status
@@ -90,16 +90,17 @@ class FriendsList(APIView):
         current_user_profile = UserProfile.objects.get(user=request.user)
         friends = current_user_profile.friends.all()
         if friends.exists():
-            return Response({'friends': list(friends)})
+            serializer = GetFriendsSerializer(friends, many=True)
+            return Response({'friends': serializer.data})
         else:
             return Response({'message': 'You have no friends.'})
     
-class FriendPatch(APIView):
+
     def patch(self, request):
         current_user_profile = UserProfile.objects.get(user=request.user)
         action = request.data.get('action')  #'add' or 'remove'
         friend_id = request.data.get('friend_id')  
-
+        print(action,friend_id)
         try:
             friend_profile = UserProfile.objects.get(id=friend_id)
         except UserProfile.DoesNotExist:

@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { profilePage, getMemberClubs, getUserPagesCompleted } from '../api/backend_calls';
+import { profilePage, getMemberClubs, getUserPagesCompleted, getFriends, modifyFriendsList } from '../api/backend_calls';
 import { useEffect, useState } from 'react';
 import ReadOnlyRating from '../components/readOnlyRating';
 import SelectedBookClub from '../components/SelectedBookClub';
@@ -16,15 +16,18 @@ export default function OthersProfile() {
     const { userPK } = useParams();
     const [open, setOpen] = useState(false);
     const [clickedBook, setClickedBook] = useState({})
- 
+    const [myFriends, setMyFriends] = useState(false)
+
     const handleClubClick =(club) =>{
         setClubSelected(club)
     }
 
-
+    const handleAddFriend = async () =>{
+        const status = await modifyFriendsList("add",userPK)
+        console.log(status)
+    }
 
     const handleOpen = (book) => {
-    
         setClickedBook(book)
         setOpen(true);
       }
@@ -35,8 +38,9 @@ export default function OthersProfile() {
             const profile = await profilePage(userPK);
             const clubs = await getMemberClubs(userPK)
             const userData = await getUserPagesCompleted(userPK)
-            console.log(profile)
             const userID = await getAllBookClubs()
+            const friends = await getFriends()
+            setMyFriends(friends)
             setMyId(userID.myid)
             setProfileInfo(profile);
             setClubInfo(clubs)
@@ -59,6 +63,8 @@ export default function OthersProfile() {
                 <div className="otherTitle">
                     <h2>{userInfo.username}'s Profile</h2>
                 </div>
+                <button onClick={()=>{console.log(userInfo,myFriends)}}>print</button>
+                <button onClick={handleAddFriend}>add friend</button>
                 <div className="otherHeaderContainer">
                     <div className="totalPages">
                         <h3>Total Pages Read:</h3>
