@@ -5,7 +5,7 @@ import ReadOnlyRating from '../components/readOnlyRating';
 import SelectedBookClub from '../components/SelectedBookClub';
 import { getAllBookClubs } from '../api/backend_calls';
 import DetailedBookView from "../components/DetailedBookView";
-
+import AddRemoveFriend from '../components/AddRemoveFriend';
 import './css/othersProfile.css';
 export default function OthersProfile() {
     const [profileInfo, setProfileInfo] = useState(null);
