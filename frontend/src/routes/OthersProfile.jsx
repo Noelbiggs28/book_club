@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
-import { profilePage, getMemberClubs, getUserPagesCompleted } from '../api/backend_calls';
+import { profilePage, getMemberClubs, getUserPagesCompleted, getFriends, modifyFriendsList } from '../api/backend_calls';
 import { useEffect, useState } from 'react';
 import ReadOnlyRating from '../components/readOnlyRating';
 import SelectedBookClub from '../components/SelectedBookClub';
 import { getAllBookClubs } from '../api/backend_calls';
 import DetailedBookView from "../components/DetailedBookView";
-
+import AddRemoveFriend from '../components/AddRemoveFriend';
 import './css/othersProfile.css';
 export default function OthersProfile() {
     const [profileInfo, setProfileInfo] = useState(null);
@@ -16,7 +16,8 @@ export default function OthersProfile() {
     const { userPK } = useParams();
     const [open, setOpen] = useState(false);
     const [clickedBook, setClickedBook] = useState({})
- 
+    const [myFriends, setMyFriends] = useState(false)
+
     const handleClubClick =(club) =>{
         setClubSelected(club)
     }
@@ -24,7 +25,6 @@ export default function OthersProfile() {
 
 
     const handleOpen = (book) => {
-    
         setClickedBook(book)
         setOpen(true);
       }
@@ -35,8 +35,9 @@ export default function OthersProfile() {
             const profile = await profilePage(userPK);
             const clubs = await getMemberClubs(userPK)
             const userData = await getUserPagesCompleted(userPK)
-            console.log(profile)
             const userID = await getAllBookClubs()
+            const friends = await getFriends()
+            setMyFriends(friends)
             setMyId(userID.myid)
             setProfileInfo(profile);
             setClubInfo(clubs)
@@ -59,6 +60,7 @@ export default function OthersProfile() {
                 <div className="otherTitle">
                     <h2>{userInfo.username}'s Profile</h2>
                 </div>
+                <AddRemoveFriend friendsId={userPK} />
                 <div className="otherHeaderContainer">
                     <div className="totalPages">
                         <h3>Total Pages Read:</h3>

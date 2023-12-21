@@ -218,6 +218,8 @@ export const getMemberClubs = async (memberPK) =>{
   return apiJSON
 } 
 
+// return list of all users as dictionarys with 
+// username, pages_completed user_id
 export const getLeaderboard = async () =>{
   let adjustable_url = `accounts/leaderboard/`;
   const apiJSON = await getDeleteFetch(adjustable_url, "GET")
@@ -230,6 +232,8 @@ export const toggleRecommend = async (bookID) => {
   return response
 }
 
+
+// returns list of users that are friends
 export const getFriends = async () =>{
   const adjustable_url = 'accounts/friend/'
   const apiJSON = await getDeleteFetch(adjustable_url, "GET")

@@ -125,3 +125,6 @@ body{
 .unLink:hover{
   color: #2980b9;
 }
+.addRemoveFriend{
+  text-align: center;
+}
