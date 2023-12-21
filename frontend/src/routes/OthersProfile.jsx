@@ -22,10 +22,7 @@ export default function OthersProfile() {
         setClubSelected(club)
     }
 
-    const handleAddFriend = async () =>{
-        const status = await modifyFriendsList("add",userPK)
-        console.log(status)
-    }
+
 
     const handleOpen = (book) => {
         setClickedBook(book)
@@ -63,8 +60,7 @@ export default function OthersProfile() {
                 <div className="otherTitle">
                     <h2>{userInfo.username}'s Profile</h2>
                 </div>
-                <button onClick={()=>{console.log(userInfo,myFriends)}}>print</button>
-                <button onClick={handleAddFriend}>add friend</button>
+                <AddRemoveFriend friendsId={userPK} />
                 <div className="otherHeaderContainer">
                     <div className="totalPages">
                         <h3>Total Pages Read:</h3>

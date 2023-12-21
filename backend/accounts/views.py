@@ -91,7 +91,7 @@ class FriendsList(APIView):
         friends = current_user_profile.friends.all()
         if friends.exists():
             serializer = GetFriendsSerializer(friends, many=True)
-            return Response({'friends': serializer.data})
+            return Response({'friends': serializer.data, 'message': 'friends'})
         else:
             return Response({'message': 'You have no friends.'})
     
