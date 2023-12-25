@@ -51,7 +51,7 @@ return(<div className="addRemoveFriend">
         :
         <button onClick={handleAddFriend}>add friend</button>
         }
-        <button onClick={()=>{console.log(allFriends, allFriends.friends, friendsId)}}>print</button>
+        {/* <button onClick={()=>{console.log(allFriends, allFriends.friends, friendsId)}}>print</button> */}
         </div>
     )
 }
