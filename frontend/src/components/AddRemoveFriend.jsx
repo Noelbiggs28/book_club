@@ -9,7 +9,7 @@ const [isFriend, setIsFriend] = useState(null)
 
 
 const handleAddFriend = async () =>{
-    const status = await modifyFriendRequest(friendsId)
+    const status = await modifyFriendRequest("add",friendsId)
     console.log(status)
     setFriendRefresh(!friendRefresh)
     return status
