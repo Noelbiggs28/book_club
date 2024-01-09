@@ -12,6 +12,7 @@ import OthersProfile from './routes/OthersProfile'
 import TopFive from './routes/TopFive'
 import SignUp from './routes/SignUp'
 import FriendsPage from './routes/Friends'
+import Notifications from './routes/Notifications'
 function App() {
   
   const [bookClubSelected, setBookClubSelected] = useState(false)
@@ -56,6 +57,7 @@ function App() {
       <Route path="/testtopfive" element={<TopFive />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/friends" element={<FriendsPage />} />
+      <Route path="notifications" element={<Notifications />} />
      </Routes>
      </Router>
      </div>

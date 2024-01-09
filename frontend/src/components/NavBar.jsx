@@ -51,6 +51,9 @@ export default function Navbar({ userToken, setCreatingBookClub, setBookClubSele
           <li className="nav-item" onClick={() => handleLinkClick('/friends')}>
             <Link to="/friends">friends</Link>
           </li>
+          <li className="nav-item" onClick={() => handleLinkClick('/notifications')}>
+            <Link to="/notifications">notifications</Link>
+          </li>
           {userToken ? 
               <li className="nav-item" onClick={() => handleLinkClick('/logout')}>
                 <Link to="/logout">Logout</Link>
