@@ -246,3 +246,16 @@ export const modifyFriendsList = async (action, friendsId) =>{
   const apiJSON = await contextFetch(adjustable_url, "PATCH", context)
   return apiJSON
 }
+
+export const getFriendRequests = async () =>{
+  const adjustable_url = 'accounts/notifications/'
+  const apiJSON = await getDeleteFetch(adjustable_url, "GET")
+  return apiJSON
+} 
+
+export const modifyFriendRequest = async(friendsId) =>{
+  const context = {"friend_id":friendsId}
+  const adjustable_url = 'accounts/notifications/'
+  const apiJSON = await contextFetch(adjustable_url, "PATCH", context)
+  return apiJSON
+}

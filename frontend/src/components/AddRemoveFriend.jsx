@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { modifyFriendsList, getFriends } from "../api/backend_calls"
+import { modifyFriendsList, getFriends, modifyFriendRequest } from "../api/backend_calls"
 
 export default function AddRemoveFriend({friendsId}){
 
@@ -9,7 +9,7 @@ const [isFriend, setIsFriend] = useState(null)
 
 
 const handleAddFriend = async () =>{
-    const status = await modifyFriendsList("add",friendsId)
+    const status = await modifyFriendRequest(friendsId)
     console.log(status)
     setFriendRefresh(!friendRefresh)
     return status
@@ -51,7 +51,7 @@ return(<div className="addRemoveFriend">
         :
         <button onClick={handleAddFriend}>add friend</button>
         }
-        {/* <button onClick={()=>{console.log(allFriends, allFriends.friends, friendsId)}}>print</button> */}
+        
         </div>
     )
 }

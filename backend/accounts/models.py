@@ -6,3 +6,4 @@ class UserProfile(models.Model):
     pages_completed = models.IntegerField(default=0)
     top_five_books = models.JSONField(default=list)
     friends = models.ManyToManyField('self', symmetrical=False, related_name='friends_list')
+    friend_pending = models.ManyToManyField('self', symmetrical=False, related_name='friends_pending')

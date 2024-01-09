@@ -115,3 +115,26 @@ class FriendsList(APIView):
             return Response({'message': 'Friend removed successfully'})
 
         return Response({'error': 'Invalid action'}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class FriendsPending(APIView):
+    def get(self, request):
+        current_user_profile = UserProfile.objects.get(user=request.user)
+        friends_requests = current_user_profile.friend_pending.all()
+        if friends_requests.exists():
+            serializer = GetFriendsSerializer(friends_requests, many=True)
+            return Response({'friend_requests': serializer.data, 'message': 'friend requests'})
+        else:
+            return Response({'message': 'You have no friend requests.'})
+        
+    def patch(self, request):
+        current_user_profile = UserProfile.objects.get(user=request.user)
+        friend_id = request.data.get('friend_id')  
+        try:
+            friend_profile = UserProfile.objects.get(id=friend_id)
+            current_user_profile.friend_pending.add(friend_profile)
+            return Response({'message': 'Friend request sent'})
+        except UserProfile.DoesNotExist:
+            return Response({'error': 'Friend profile not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+    
