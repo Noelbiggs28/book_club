@@ -12,7 +12,7 @@ export default function Navbar({ userToken, setCreatingBookClub, setBookClubSele
 
 
   const handleLinkClick = (path) => {
-    setInputValue('')
+    
     if (path === '/') {
       navigate('/')
     } else if (!userToken && path != '/login') {

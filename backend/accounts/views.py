@@ -115,3 +115,45 @@ class FriendsList(APIView):
             return Response({'message': 'Friend removed successfully'})
 
         return Response({'error': 'Invalid action'}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class FriendsPending(APIView):
+
+    def get(self, request):
+        current_user_profile = UserProfile.objects.get(user=request.user)
+        received_requests = UserProfile.objects.filter(friend_pending=current_user_profile)
+        
+        if received_requests.exists():
+            serializer = GetFriendsSerializer(received_requests, many=True)
+            return Response({'friend_requests': serializer.data, 'message': 'friend requests'})
+        else:
+            return Response({'message': 'You have no friend requests.'})
+        
+    def patch(self, request):
+        current_user_profile = UserProfile.objects.get(user=request.user)
+        action = request.data.get('action')
+        friend_id = request.data.get('friend_id')  
+        try:
+            friend_profile = UserProfile.objects.get(id=friend_id)
+        except UserProfile.DoesNotExist:
+            return Response({'error': 'Friend profile not found'}, status=status.HTTP_404_NOT_FOUND)
+        if action=="add":
+            current_user_profile.friend_pending.add(friend_profile)
+            friend_profile.friend_pending.remove(current_user_profile)
+            return Response({'message': 'Friend request sent'})
+        if action=="remove":
+            friend_profile.friend_pending.remove(current_user_profile)
+            return Response({"message":"friend request removed"})
+        
+class FriendRequestsSent(APIView):
+    def get(self, request):
+        current_user_profile = UserProfile.objects.get(user=request.user)
+        requests_sent = current_user_profile.friend_pending.all()
+        
+        if requests_sent.exists():
+            serializer = GetFriendsSerializer(requests_sent, many=True)
+            return Response({'friend_requests': serializer.data, 'message': 'friends pending'})
+        else:
+            return Response({'message': 'You have no requests pending.'})
+        
+    

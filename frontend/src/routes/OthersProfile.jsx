@@ -22,15 +22,12 @@ export default function OthersProfile() {
         setClubSelected(club)
     }
 
-
-
     const handleOpen = (book) => {
         setClickedBook(book)
         setOpen(true);
       }
 
     useEffect(() => {
-       
         const fetchProfileInfo = async () => {
             const profile = await profilePage(userPK);
             const clubs = await getMemberClubs(userPK)
@@ -77,10 +74,7 @@ export default function OthersProfile() {
                 </div>
             </>) : (<p>Loading...</p>)}
 
-
-            
             <div className='othersBottomContainer'>
-       
                 <div className="completedAndTbr">
                     <div className='bookListBlock'>
                         <h3>Completed</h3>
@@ -104,12 +98,6 @@ export default function OthersProfile() {
                     ))}
                 </div>
             </div>
-            
-            
-            
-            
-
-           
         </div>
     );
 }
