@@ -145,4 +145,15 @@ class FriendsPending(APIView):
             friend_profile.friend_pending.remove(current_user_profile)
             return Response({"message":"friend request removed"})
         
+class FriendRequestsSent(APIView):
+    def get(self, request):
+        current_user_profile = UserProfile.objects.get(user=request.user)
+        requests_sent = current_user_profile.friend_pending.all()
+        
+        if requests_sent.exists():
+            serializer = GetFriendsSerializer(requests_sent, many=True)
+            return Response({'friend_requests': serializer.data, 'message': 'friends pending'})
+        else:
+            return Response({'message': 'You have no requests pending.'})
+        
     

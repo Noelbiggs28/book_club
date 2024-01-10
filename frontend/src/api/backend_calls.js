@@ -240,6 +240,7 @@ export const getFriends = async () =>{
   return apiJSON
 } 
 
+// confirms friend request and add them to your friends.
 export const modifyFriendsList = async (action, friendsId) =>{
   const context= {"action":action,"friend_id":friendsId}
   let adjustable_url = `accounts/friend/`;
@@ -247,15 +248,23 @@ export const modifyFriendsList = async (action, friendsId) =>{
   return apiJSON
 }
 
+// get all friend requests that were sent to you
 export const getFriendRequests = async () =>{
   const adjustable_url = 'accounts/notifications/'
   const apiJSON = await getDeleteFetch(adjustable_url, "GET")
   return apiJSON
 } 
-
+// can add or remove a friend request from others point of view.
 export const modifyFriendRequest = async(action, friendsId) =>{
   const context = {"action":action, "friend_id":friendsId}
   const adjustable_url = 'accounts/notifications/'
   const apiJSON = await contextFetch(adjustable_url, "PATCH", context)
+  return apiJSON
+}
+
+// returns list of dictionarys of friends that you sent requests to
+export const getFriendRequestsSent = async () =>{
+  const adjustable_url = 'accounts/pending-requests/'
+  const apiJSON = await getDeleteFetch(adjustable_url, "GET")
   return apiJSON
 }

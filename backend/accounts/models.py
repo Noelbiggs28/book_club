@@ -5,5 +5,5 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     pages_completed = models.IntegerField(default=0)
     top_five_books = models.JSONField(default=list)
-    friends = models.ManyToManyField('self', symmetrical=False, related_name='friends_list')
+    friends = models.ManyToManyField('self', symmetrical=True)
     friend_pending = models.ManyToManyField('self', symmetrical=False, related_name='friends_pending')
