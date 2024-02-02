@@ -119,5 +119,4 @@ jobs:
 #     - name: Start containers
 #       run: ./run-compose-dev-ci.sh
 #     - name: Stop containers
-#       if: always()
 #       run: docker-compose -f docker-compose.dev.yml down
