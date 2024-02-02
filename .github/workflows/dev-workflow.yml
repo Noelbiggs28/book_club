@@ -18,7 +18,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: db
+          POSTGRES_DB: book_db
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
@@ -41,7 +41,7 @@ jobs:
     - name: Run tests
       run: python manage.py test
       working-directory: ./backend
-      
+
   react-tests:
     runs-on: ubuntu-latest
     steps:
