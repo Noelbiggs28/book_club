@@ -104,7 +104,12 @@ WSGI_APPLICATION = 'chapter_chat.wsgi.application'
 # }
 # }
 
-
+# gha 5432
+# runcom 5454
+# aws 5432
+# runcompose and aws work with
+# "PORT": 5432 if os.getenv("DB_NAME") else 5454
+# 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -112,7 +117,7 @@ DATABASES = {
         "USER": os.getenv("DB_USER", "postgres"),
         "PASSWORD": os.getenv("DB_PASS", "postgres"),
         "HOST": "db" if os.getenv("DB_NAME") else "localhost",
-        "PORT": 5432 #if os.getenv("DB_NAME") else 5454
+        "PORT": 5432 if os.getenv("DB_NAME") else 5454
     }
 }
 
