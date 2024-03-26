@@ -10,11 +10,11 @@
 # instead of localhost
 ##############################
 
-# DOCKERHUB_UNAME=thisiskennyb
+# DOCKERHUB_UNAME=noelbiggs28
 
 BASE_URL=$1
 NEW_VERSION=$2
-DOCKERHUB_UNAME=$3
+
 
 
 docker build --build-arg VITE_BASE_URL=$BASE_URL -t $DOCKERHUB_UNAME/book_club_webserver-prod:$NEW_VERSION -f webserver/Dockerfile . --no-cache
