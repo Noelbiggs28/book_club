@@ -12,7 +12,7 @@
 
 BASE_URL=$1
 NEW_VERSION=$2
-DOCKERHUB_UNAME=$3
+DOCKERHUB_UNAME=noelbiggs28
 
 # need to do this one because otherwise it build in v8 and aws is at v3
 docker buildx build --platform linux/amd64 --build-arg VITE_BASE_URL=$BASE_URL -t $DOCKERHUB_UNAME/book_club_webserver-prod:$NEW_VERSION -f webserver/Dockerfile . --no-cache --push
